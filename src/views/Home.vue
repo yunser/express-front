@@ -11,14 +11,19 @@
         <div class="btns">
             <ui-raised-button class="btn" label="查询" primary @click="query" />
         </div>
-        <ui-article v-if="result">
+        <ui-timeline v-if="result">
+            <ui-timeline-item v-for="item in result.list" :key="item.datetime">
+                <span slot="time">{{ item.datetime }}</span>
+                <span slot="des">{{ item.remark }}</span>
+            </ui-timeline-item>
+        </ui-timeline>
+        <!-- <ui-article v-if="result">
             <ul>
                 <li v-for="item in result.list">
                     {{ item.datetime }}：{{ item.remark }}
                 </li>
             </ul>
-            <!-- <pre>{{ result }}</pre> -->
-        </ui-article>
+        </ui-article> -->
     </my-page>
 </template>
 
@@ -75,11 +80,17 @@
             },
             query() {
                 if (!this.no) {
-                    alert('请输入快递单号')
+                    this.$message({
+                        type: 'danger',
+                        text: '请输入快递单号'
+                    })
                     return
                 }
                 if (!this.company) {
-                    alert('请选择快递公司')
+                    this.$message({
+                        type: 'danger',
+                        text: '请选择快递公司'
+                    })
                     return
                 }
                 this.$http.get(`/express?company=${this.company}&no=${this.no}`).then(
