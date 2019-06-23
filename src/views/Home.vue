@@ -1,29 +1,24 @@
 <template>
     <my-page title="快递查询">
-        <ui-text-field v-model="no" label="快递单号" />
-        <br>
-        <ui-select-field v-model="company" label="快递公司">
-            <ui-menu-item v-for="item,index in companies" 
-                :key="index"
-                :value="item.no"
-                :title="item.com" />
-        </ui-select-field>
-        <div class="btns">
-            <ui-raised-button class="btn" label="查询" primary @click="query" />
+        <div class="common-container container">
+            <ui-text-field v-model="no" label="快递单号" />
+            <br>
+            <ui-select-field v-model="company" label="快递公司">
+                <ui-menu-item v-for="item,index in companies" 
+                    :key="index"
+                    :value="item.no"
+                    :title="item.com" />
+            </ui-select-field>
+            <div class="btns">
+                <ui-raised-button class="btn" label="查询" primary @click="query" />
+            </div>
+            <ui-timeline v-if="result">
+                <ui-timeline-item v-for="item in result.list" :key="item.datetime">
+                    <span slot="time">{{ item.datetime }}</span>
+                    <span slot="des">{{ item.remark }}</span>
+                </ui-timeline-item>
+            </ui-timeline>
         </div>
-        <ui-timeline v-if="result">
-            <ui-timeline-item v-for="item in result.list" :key="item.datetime">
-                <span slot="time">{{ item.datetime }}</span>
-                <span slot="des">{{ item.remark }}</span>
-            </ui-timeline-item>
-        </ui-timeline>
-        <!-- <ui-article v-if="result">
-            <ul>
-                <li v-for="item in result.list">
-                    {{ item.datetime }}：{{ item.remark }}
-                </li>
-            </ul>
-        </ui-article> -->
     </my-page>
 </template>
 
